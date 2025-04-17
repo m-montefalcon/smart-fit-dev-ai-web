@@ -1,0 +1,73 @@
+// Import global variables
+@import '../../../sass/variables';
+
+// Apply variables to body
+body {
+  background-color: var(--background-color);
+  color: var(--text-color);
+  font-family: var(--font-family);
+  font-size: var(--font-size-base);
+}
+
+// Login page styles
+.login-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--background-color);
+  transition: background-color 0.3s ease;
+
+  .login-card {
+    width: 100%;
+    max-width: 400px;
+    padding: var(--spacing-large);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    border-radius: 1rem;
+    background-color: var(--background-color);
+    transition: background-color 0.3s ease, color 0.3s ease;
+
+    .login-header {
+      text-align: center;
+      margin-bottom: var(--spacing-large);
+
+      h1 {
+        font-size: 2rem;
+        color: var(--text-color);
+        margin-bottom: 0.5rem;
+      }
+
+      p {
+        color: var(--secondary-color);
+      }
+    }
+
+    .form-floating {
+      margin-bottom: var(--spacing-medium);
+    }
+
+    .login-button {
+      width: 100%;
+      padding: 0.75rem;
+      font-size: 1rem;
+      font-weight: 500;
+      margin-top: var(--spacing-small);
+      background-color: var(--button-bg);
+      color: white;
+    }
+
+    .login-footer {
+      text-align: center;
+      margin-top: var(--spacing-medium);
+
+      a {
+        color: var(--primary-color);
+        text-decoration: none;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+}

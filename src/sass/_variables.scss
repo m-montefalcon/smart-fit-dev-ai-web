@@ -1,0 +1,65 @@
+// Define Sass Variables
+$primary-color: #007bff;
+$secondary-color: #6c757d;
+$background-color-light: #f8f9fa;
+$background-color-dark: #2B2B2B;
+$text-color-light: #212529;
+$text-color-dark: #e0e0e0;
+$button-bg-light: #007bff;
+$button-bg-dark: #444;
+$font-family: 'Helvetica', Arial, sans-serif;
+$font-size-base: 1rem; // 16px
+$spacing-small: 0.5rem;
+$spacing-medium: 1rem;
+$spacing-large: 2rem;
+
+
+
+// Define CSS Variables (Using Sass Variables)
+:root {
+  --primary-color: #{$primary-color};
+  --secondary-color: #{$secondary-color};
+  --background-color-light: #{$background-color-light};
+  --background-color-dark: #{$background-color-dark};
+  --text-color-light: #{$text-color-light};
+  --text-color-dark: #{$text-color-dark};
+  --button-bg-light: #{$button-bg-light};
+  --button-bg-dark: #{$button-bg-dark};
+  --font-family: #{$font-family};
+  --font-size-base: #{$font-size-base};
+  --spacing-small: #{$spacing-small};
+  --spacing-medium: #{$spacing-medium};
+  --spacing-large: #{$spacing-large};
+}
+
+// Dark Mode Styles for CSS variables (media query for prefers-color-scheme)
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background-color: var(--background-color-dark);
+    --text-color: var(--text-color-dark);
+    --button-bg: var(--button-bg-dark);
+  }
+}
+
+// Default Light Mode Styles
+@media (prefers-color-scheme: light) {
+  :root {
+    --background-color: var(--background-color-light);
+    --text-color: var(--text-color-light);
+    --button-bg: var(--button-bg-light);
+  }
+}
+
+// Dark Mode Class Override
+body.dark-mode {
+  --background-color: var(--background-color-dark);
+  --text-color: var(--text-color-dark);
+  --button-bg: var(--button-bg-dark);
+}
+
+// Default Light Mode (when no dark mode class)
+body {
+  --background-color: var(--background-color-light);
+  --text-color: var(--text-color-light);
+  --button-bg: var(--button-bg-light);
+}

@@ -1,0 +1,65 @@
+// Import global variables
+@import '../../../sass/variables';
+
+.register-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--background-color);
+  transition: background-color 0.3s ease;
+
+  .register-card {
+    width: 100%;
+    max-width: 400px;
+    padding: var(--spacing-large);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    border-radius: 1rem;
+    background-color: var(--background-color);
+    transition: background-color 0.3s ease, color 0.3s ease;
+
+    .register-header {
+      text-align: center;
+      margin-bottom: var(--spacing-large);
+
+      h1 {
+        font-size: 2rem;
+        color: var(--text-color);
+        margin-bottom: 0.5rem;
+      }
+
+      p {
+        color: var(--secondary-color);
+      }
+    }
+
+    .form-floating {
+      margin-bottom: var(--spacing-medium);
+    }
+
+    .register-button {
+      width: 100%;
+      padding: 0.75rem;
+      font-size: var(--font-size-base);
+      font-weight: 500;
+      margin-top: var(--spacing-medium);
+      background-color: var(--button-bg);
+      transition: background-color 0.3s ease;
+    }
+
+    .register-footer {
+      text-align: center;
+      margin-top: 1.5rem;
+      color: var(--text-color);
+      
+      a {
+        color: var(--primary-color);
+        text-decoration: none;
+        
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+}
