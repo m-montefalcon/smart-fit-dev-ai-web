@@ -1,10 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { AuthTypes } from './authTypes';
-  
+import { loginUser, logoutUser } from './authThunks';
+
 const initialState: AuthTypes = {
     isAuthenticated: false,
-    isLoading: false,
-    error: null,
 };
 
 const authSlice = createSlice({
@@ -17,6 +16,21 @@ const authSlice = createSlice({
       setUnauthenticated(state) {
         state.isAuthenticated = false;
       },
+    },
+    extraReducers: (builder) => {
+      builder
+        .addCase(loginUser.fulfilled, (state) => {
+          state.isAuthenticated = true;
+        })
+        .addCase(loginUser.rejected, (state) => {
+          state.isAuthenticated = false;
+        })
+        .addCase(logoutUser.fulfilled, (state) => {
+          state.isAuthenticated = false;
+        })
+        .addCase(logoutUser.rejected, (state) => {
+          state.isAuthenticated = true;
+        });
     },
   });
   
