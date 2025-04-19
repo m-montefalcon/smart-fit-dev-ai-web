@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import { registerUser } from '../../../redux/auth/authThunks';
 import { useAppDispatch } from '../../../redux/hooks';
-
+import handleError from '../../../utils/handlerError';
 
 interface FormDataInterface {
     fullName: string;
@@ -36,21 +36,16 @@ const RegisterPage = () => {
         // Simple client-side validation (password confirmation)
         if (formData.password !== formData.confirmPassword) {
           setError('Passwords do not match');
-          setIsLoading(false);  // Stop loading state
+          setIsLoading(false);  
           return;
         }
-    
+
         try {
-          // Dispatch the registerUser thunk action
-          await dispatch(registerUser(formData)).unwrap();  // .unwrap() to get the result or throw error
-    
-          // You can handle success here, e.g., redirecting or updating state if needed
-    
-        } catch (error: any) {
-          // Handle error from the thunk (which comes from the rejectWithValue in the thunk)
-          setError(error || 'An error occurred during registration');
-        } finally {
-          setIsLoading(false);  // Stop loading state
+            await dispatch(registerUser(formData)).unwrap();
+          } catch (err) {
+            handleError(err);
+          } finally {
+          setIsLoading(false);  
         }
       };
 

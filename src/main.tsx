@@ -8,6 +8,7 @@ import LoginPage from './pages/Auth/LoginPage/LoginPage';
 import RegisterPage from './pages/Auth/RegisterPage/RegisterPage';
 
 import './styles.scss';
+import { ToastContainer } from 'react-toastify';
 
 const router = createBrowserRouter([
   {
@@ -22,6 +23,7 @@ createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <Provider store={store}> {/* ✅ Provide the store to the app */}
       <RouterProvider router={router} />
+      <ToastContainer />
     </Provider>
   </StrictMode>
 );
