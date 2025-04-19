@@ -2,24 +2,57 @@ import { Form, Button } from 'react-bootstrap';
 import './RegisterPage.scss';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
+import { registerUser } from '../../../redux/auth/authThunks';
+import { useAppDispatch } from '../../../redux/hooks';
 
+
+interface FormDataInterface {
+    fullName: string;
+    email: string;
+    password: string;
+    confirmPassword: string;
+}
 const RegisterPage = () => {
 
-    const [formData, setFormData] = useState({
-        name: '',
+    const [formData, setFormData] = useState<FormDataInterface>({
+        fullName: '',
         email: '',
         password: '',
         confirmPassword: '',
     });
+    const [error, setError] = useState<string>(''); // Error state for showing error messages
+    const [isLoading, setIsLoading] = useState(false); // Loading state for the button
+    const dispatch = useAppDispatch();
 
     const handleChangeFormData = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { id, value } = e.target;
         setFormData({ ...formData, [id]: value });
     }
-    const handleRegisterSubmit = (e: React.FormEvent) => {
+    const handleRegisterSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        console.log('Register form submitted', formData);
-    }
+        setIsLoading(true);  // Start loading state
+        setError('');  // Reset error
+    
+        // Simple client-side validation (password confirmation)
+        if (formData.password !== formData.confirmPassword) {
+          setError('Passwords do not match');
+          setIsLoading(false);  // Stop loading state
+          return;
+        }
+    
+        try {
+          // Dispatch the registerUser thunk action
+          await dispatch(registerUser(formData)).unwrap();  // .unwrap() to get the result or throw error
+    
+          // You can handle success here, e.g., redirecting or updating state if needed
+    
+        } catch (error: any) {
+          // Handle error from the thunk (which comes from the rejectWithValue in the thunk)
+          setError(error || 'An error occurred during registration');
+        } finally {
+          setIsLoading(false);  // Stop loading state
+        }
+      };
 
     return (
         <div className="register-container">
@@ -30,13 +63,15 @@ const RegisterPage = () => {
             </div>
             
             <Form onSubmit={handleRegisterSubmit}>
+            {error && <div className="alert alert-danger">{error}</div>} {/* Show error message */}
+
             <Form.Floating className="mb-3">
                 <Form.Control
-                id="name"
+                id="fullName"
                 type="text"
                 placeholder="Full Name"
                 required
-                value={formData.name}
+                value={formData.fullName}
                 onChange={handleChangeFormData}
                 />
                 <label htmlFor="name">Full Name</label>
@@ -78,9 +113,10 @@ const RegisterPage = () => {
                 <label htmlFor="confirmPassword">Confirm Password</label>
             </Form.Floating>
 
-            <Button variant="primary" className="register-button" type="submit">
-                Create Account
+            <Button variant="primary" className="register-button" type="submit" disabled={isLoading}>
+                        {isLoading ? 'Registering...' : 'Create Account'}
             </Button>
+            
             </Form>
 
             <div className="register-footer">
