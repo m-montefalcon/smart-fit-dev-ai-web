@@ -1,23 +1,40 @@
 import { Form, Button } from 'react-bootstrap';
 import './LoginPage.scss';
 import { useState } from 'react';
+import { loginUser } from '../../../redux/auth/authThunks';
+import { useAppDispatch } from '../../../redux/hooks';
+import handleError from '../../../utils/handlerError';
+import { useNavigate } from 'react-router-dom';
 
 const LoginPage = () => {
 
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: '',
     password: '',
   });
+  const [isLoading, setIsLoading] = useState(false); 
 
   const handleChangeFormData = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
     setFormData({ ...formData, [id]: value });
   }
 
-  const handleSubmitLogin = (e: React.FormEvent) => {
+  const handleSubmitLogin = async  (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Login form submitted', formData);
+    setIsLoading(true);  
+
+    try {
+      await dispatch(loginUser(formData)).unwrap();
+      navigate('/home');  
+    } catch (err) {
+      handleError(err);
+    } finally {
+      setIsLoading(false);  
+    }
   }
+
   return (
     <div className="login-container">
       <div className="login-card">
@@ -52,7 +69,7 @@ const LoginPage = () => {
           </Form.Floating>
 
           <Button variant="primary" className="login-button" type='submit'>
-            Sign In
+            {isLoading ? 'Loading...' : 'Sign In'}
           </Button>
 
         </Form>

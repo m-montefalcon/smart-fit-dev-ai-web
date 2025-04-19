@@ -7,7 +7,7 @@ const axiosInstance = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
-  withCredentials: true, // ✅ default to sending cookies
+  withCredentials: true,
 });
 
 const skipCookiesRoutes = ['/auth/register', '/auth/login'];
@@ -19,11 +19,22 @@ axiosInstance.interceptors.request.use((config) => {
     );
 
     if (shouldSkip) {
-      config.withCredentials = false; // ❌ don’t send cookies for these
+      config.withCredentials = false;
     }
   }
 
   return config;
 });
+
+axiosInstance.interceptors.response.use(
+  (response) => {
+    console.log('Response success:', response.config.url);
+    return response;
+  },
+  (error) => {
+    console.error('Response error:', error.config?.url, error.message);
+    return Promise.reject(error);
+  }
+);
 
 export default axiosInstance;
